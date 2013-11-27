@@ -3,63 +3,84 @@ class VideoTestController < UIViewController
   include SugarCube::CoreGraphics
   include Geometry
 
+  WIDTH = 120
+  HEIGHT = 160
 
-
-  def viewWillAppear
+  def viewDidLoad
     super
 
-    create_filters
-    chain_filters
-    @video_camera.startCameraCapture
-  end
+    live = false
 
+    if live
+      @video_camera = GPUImageStillCamera.alloc.initWithSessionPreset(AVCaptureSessionPreset640x480, cameraPosition: AVCaptureDevicePositionBack)
+      @video_camera.outputImageOrientation = UIInterfaceOrientationPortrait
+    else
+      url = '2013-04-27 13.52.25.mov'.resource_url
+      @movie_player = GPUImageMovie.alloc.initWithURL(url)
+      @movie_player.runBenchmark = false
+      @movie_player.delegate = self
+      @movie_player.playAtActualSpeed = true
+    end
 
-
-  def chain_filters
-    source = @video_camera
-
-    source >> @contrast
-
-    @contrast >> @closing
-    @closing >> @edge
-    @edge >> @raw_output
-
-    source >> @perspective_filter
-    @perspective_filter >> @blend_filter
-    @edge >> @blend_filter
-
-    @blend_filter >> @output
-  end
-
-
-
-  def create_filters
-    @video_camera = GPUImageVideoCamera.alloc.initWithSessionPreset(AVCaptureSessionPreset1280x720, cameraPosition: AVCaptureDevicePositionBack)
-    #@video_camera.outputImageOrientation = UIInterfaceOrientationPortrait
+    #@rotater = GPUImageTransformFilter.new
+    #@rotater.forceProcessingAtSize(Size(1920, 1920))
+    #@rotater.affineTransform = CGAffineTransformMakeRotation(0.5.pi)
 
     @cluster_finder = Geometry::KMeans.new(4)
 
     @contrast = GPUImageContrastFilter.new
-    #@contrast.forceProcessingAtSize(Size(WIDTH, HEIGHT))
+    @contrast.forceProcessingAtSize(Size(WIDTH, HEIGHT))
     @contrast.contrast = 5.0
 
     @edge = GPUImageSobelEdgeDetectionFilter.new
-    #@edge.forceProcessingAtSize(Size(WIDTH, HEIGHT))
+    @edge.forceProcessingAtSize(Size(WIDTH, HEIGHT))
 
     @closing = GPUImageClosingFilter.alloc.initWithRadius 4
-    #@closing.forceProcessingAtSize(Size(WIDTH, HEIGHT))
+    @closing.forceProcessingAtSize(Size(WIDTH, HEIGHT))
 
     @threshold = GPUImageAdaptiveThresholdFilter.new
     @threshold.blurSize = 10.0
 
     @perspective_filter = GPUImageTransformFilter.new
-    #@perspective_filter.forceProcessingAtSize(Size(WIDTH, HEIGHT))
+    @perspective_filter.forceProcessingAtSize(Size(WIDTH, HEIGHT))
     @perspective_filter.anchorTopLeft = false
 
-    @blend_filter = GPUImageOverlayBlendFilter.new
+    @raw_output = WhitePixelCounter.alloc.initWithImageSize([WIDTH, HEIGHT], resultsInBGRAFormat: false)
+
+    @frame_no = 0
+    @raw_output.whitePixelDetectedBlock = lambda do |white, time|
+      analyze_white(white, time) if @frame_no % 200 == 0
+      @frame_no += 1
+    end
 
     @output = GPUImageView.alloc.initWithFrame([[0, 0], [320, 480]])
     self.view = @output
+
+    # Filter chains
+
+    source = if live
+               @video_camera
+             else
+               @movie_player
+             end
+
+    source >> @contrast
+    @contrast >> @closing
+    @closing >> @edge
+    @edge >> @raw_output
+
+    @blend_filter = GPUImageOverlayBlendFilter.new
+
+    source >> @perspective_filter
+    @perspective_filter >> @blend_filter
+    @edge >> @blend_filter
+    @blend_filter >> @output
+
+    if live
+      @video_camera.startCameraCapture
+    else
+      @movie_player.startProcessing
+    end
   end
 
   def analyze_white(white, time)
@@ -100,8 +121,8 @@ class VideoTestController < UIViewController
   end
 
 
-#@param quad [Array<Point>] points in quadrilateral
-# @return [Void]
+  #@param quad [Array<Point>] points in quadrilateral
+  # @return [Void]
   def reverse_transform_image(quad)
     puts 'Reverse transforming image'
     puts quad
@@ -113,9 +134,13 @@ class VideoTestController < UIViewController
   end
 
 
+  def didCompletePlayingMovie
+    @movie_player.startProcessing
+  end
 
-#@return [Pointer]
-# @param [Array<Line>] lines
+
+  #@return [Pointer]
+  # @param [Array<Line>] lines
   def to_lines_pointer(lines)
     floats = Pointer.new(:float, lines.length * 2)
     lines.compact.each_with_index do |p, i|

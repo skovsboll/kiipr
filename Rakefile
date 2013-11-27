@@ -14,14 +14,14 @@ Motion::Project::App.setup do |app|
   app.deployment_target = '5.1'
   app.interface_orientations = [:portrait]
 
-  app.pods do
-    pod 'AGGeometryKit'
-    pod 'GPUImage'
-  end
+  #app.pods do
+  #  pod 'AGGeometryKit'
+  #  pod 'GPUImage'
+  #end
 
-  #app.vendor_project 'vendor/GPUImage/framework', :xcode, :target => 'GPUImage', :headers_dir => 'Source'
+  app.vendor_project 'vendor/GPUImage/framework', :xcode, :target => 'GPUImage', :headers_dir => 'Source'
   app.vendor_project 'vendor/Warp', :static
-  #app.vendor_project 'vendor/AGKit', :xcode, :target => 'AGKit', :headers_dir => 'AGKit'
+  app.vendor_project 'vendor/AGKit', :xcode, :target => 'AGKit', :headers_dir => 'AGKit'
 
   app.frameworks += %w{Foundation CoreFoundation OpenGLES QuartzCore CoreVideo CoreAnimation CoreMedia AVFoundation AudioToolbox ImageIO CoreGraphics UIKit SenTestingKit}
 
