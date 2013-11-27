@@ -1,0 +1,73 @@
+<?xml version='1.0'?>
+<signatures version='1.0'>
+<struct name='AZWVQuad' type='{_AZWVQuad=&quot;p1&quot;{CGPoint=&quot;x&quot;f&quot;y&quot;f}&quot;p2&quot;{CGPoint=&quot;x&quot;f&quot;y&quot;f}&quot;p3&quot;{CGPoint=&quot;x&quot;f&quot;y&quot;f}&quot;p4&quot;{CGPoint=&quot;x&quot;f&quot;y&quot;f}}' type64='{_AZWVQuad=&quot;p1&quot;{CGPoint=&quot;x&quot;d&quot;y&quot;d}&quot;p2&quot;{CGPoint=&quot;x&quot;d&quot;y&quot;d}&quot;p3&quot;{CGPoint=&quot;x&quot;d&quot;y&quot;d}&quot;p4&quot;{CGPoint=&quot;x&quot;d&quot;y&quot;d}}'>
+<field declared_type='CGPoint' name='p1' type='{CGPoint=&quot;x&quot;f&quot;y&quot;f}' type64='{CGPoint=&quot;x&quot;d&quot;y&quot;d}'/>
+<field declared_type='CGPoint' name='p2' type='{CGPoint=&quot;x&quot;f&quot;y&quot;f}' type64='{CGPoint=&quot;x&quot;d&quot;y&quot;d}'/>
+<field declared_type='CGPoint' name='p3' type='{CGPoint=&quot;x&quot;f&quot;y&quot;f}' type64='{CGPoint=&quot;x&quot;d&quot;y&quot;d}'/>
+<field declared_type='CGPoint' name='p4' type='{CGPoint=&quot;x&quot;f&quot;y&quot;f}' type64='{CGPoint=&quot;x&quot;d&quot;y&quot;d}'/>
+</struct>
+<class name='Warp'>
+<method selector='baseSize'>
+<retval declared_type='CGSize' type='{CGSize=ff}' type64='{CGSize=dd}'/>
+</method>
+<method selector='bottomLeft'>
+<retval declared_type='CGPoint' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+</method>
+<method selector='bottomRight'>
+<retval declared_type='CGPoint' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+</method>
+<method selector='homographyMatrixFromSource:destination:'>
+<arg declared_type='AZWVQuad' index='0' name='src' type='{_AZWVQuad={CGPoint=ff}{CGPoint=ff}{CGPoint=ff}{CGPoint=ff}}' type64='{_AZWVQuad={CGPoint=dd}{CGPoint=dd}{CGPoint=dd}{CGPoint=dd}}'/>
+<arg declared_type='AZWVQuad' index='1' name='dst' type='{_AZWVQuad={CGPoint=ff}{CGPoint=ff}{CGPoint=ff}{CGPoint=ff}}' type64='{_AZWVQuad={CGPoint=dd}{CGPoint=dd}{CGPoint=dd}{CGPoint=dd}}'/>
+<retval declared_type='CATransform3D' type='{CATransform3D=ffffffffffffffff}' type64='{CATransform3D=dddddddddddddddd}'/>
+</method>
+<method selector='quadFromSquare_x0:y0:x1:y1:x2:y2:x3:y3:'>
+<arg declared_type='float' index='0' name='x0' type='f'/>
+<arg declared_type='float' index='1' name='y0' type='f'/>
+<arg declared_type='float' index='2' name='x1' type='f'/>
+<arg declared_type='float' index='3' name='y1' type='f'/>
+<arg declared_type='float' index='4' name='x2' type='f'/>
+<arg declared_type='float' index='5' name='y2' type='f'/>
+<arg declared_type='float' index='6' name='x3' type='f'/>
+<arg declared_type='float' index='7' name='y3' type='f'/>
+<retval declared_type='CATransform3D' type='{CATransform3D=ffffffffffffffff}' type64='{CATransform3D=dddddddddddddddd}'/>
+</method>
+<method selector='setBaseSize:'>
+<arg declared_type='CGSize' index='0' name='baseSize' type='{CGSize=ff}' type64='{CGSize=dd}'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setBottomLeft:'>
+<arg declared_type='CGPoint' index='0' name='bottomLeft' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setBottomRight:'>
+<arg declared_type='CGPoint' index='0' name='bottomRight' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setTopLeft:'>
+<arg declared_type='CGPoint' index='0' name='topLeft' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='setTopRight:'>
+<arg declared_type='CGPoint' index='0' name='topRight' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+<retval declared_type='void' type='v'/>
+</method>
+<method selector='squareFromQuad_x0:y0:x1:y1:x2:y2:x3:y3:'>
+<arg declared_type='float' index='0' name='x0' type='f'/>
+<arg declared_type='float' index='1' name='y0' type='f'/>
+<arg declared_type='float' index='2' name='x1' type='f'/>
+<arg declared_type='float' index='3' name='y1' type='f'/>
+<arg declared_type='float' index='4' name='x2' type='f'/>
+<arg declared_type='float' index='5' name='y2' type='f'/>
+<arg declared_type='float' index='6' name='x3' type='f'/>
+<arg declared_type='float' index='7' name='y3' type='f'/>
+<retval declared_type='CATransform3D' type='{CATransform3D=ffffffffffffffff}' type64='{CATransform3D=dddddddddddddddd}'/>
+</method>
+<method selector='topLeft'>
+<retval declared_type='CGPoint' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+</method>
+<method selector='topRight'>
+<retval declared_type='CGPoint' type='{CGPoint=ff}' type64='{CGPoint=dd}'/>
+</method>
+</class>
+</signatures>
