@@ -68,15 +68,15 @@ module Geometry
       iterations = 0
       while clusters.any?(&:moved?)
 
-        clusters += split_most_costly_cluster(clusters) if clusters.length < @k
+        #clusters += split_most_costly_cluster(clusters) if clusters.length < @k
 
         clusters.each &:clear_points
 
         assign_points(points, clusters)
 
-        clusters.each { |cluster| cluster.update_center delta }
-
         clusters.reject! { |c| c.number_of_points < 2 }
+
+        clusters.each { |cluster| cluster.update_center delta }
 
         iterations += 1
       end
@@ -105,6 +105,7 @@ module Geometry
     # @param [Array<Clusters>] clusters
     def split_most_costly_cluster(clusters)
       costliest_cluster = clusters.select { |c| c.number_of_points >= 4 }.sort_by { |c| -c.cost }.first
+      return [] unless costliest_cluster
       puts "costliest: #{costliest_cluster}"
       clusters.delete(costliest_cluster)
       seed(costliest_cluster.points)
@@ -151,7 +152,7 @@ module Geometry
       intercept = averages[:y] - (slope * averages[:x])
 
       b_delta = 0
-      b_delta = (intercept - @center.b).abs if not @center.b.nil?
+      b_delta = (intercept - @center.b).abs unless @center.b.nil?
       unless (slope - @center.a).abs + b_delta < delta
         @center = Geometry::HoughLine.new(slope, intercept)
         @moved = true

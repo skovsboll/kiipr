@@ -2,17 +2,26 @@
 $:.unshift('/Library/RubyMotion/lib')
 require 'motion/project/template/ios'
 require 'bubble-wrap/all'
-require 'motion-ocr'
+
 require 'sugarcube'
+require 'sugarcube-animations'
+require 'sugarcube-uikit'
+require 'sugarcube-timer'
+require 'sugarcube-numbers'
+
 require 'motion-cocoapods'
-require 'pickup'
+require 'geomotion'
+require 'motion-state-machine'
 
 Motion::Project::App.setup do |app|
+
   # Use `rake config' to see complete project settings.
+
   app.name = 'ikazen'
+  app.icons = %w(icon.png icon-72.png icon@2x.png)
   app.device_family = [:iphone]
-  app.deployment_target = '5.1'
-  app.interface_orientations = [:portrait]
+  app.deployment_target = '7.0'
+  app.interface_orientations = [:landscape_right]
 
   #app.pods do
   #  pod 'AGGeometryKit'
@@ -21,10 +30,8 @@ Motion::Project::App.setup do |app|
 
   app.vendor_project 'vendor/GPUImage/framework', :xcode, :target => 'GPUImage', :headers_dir => 'Source'
   app.vendor_project 'vendor/Warp', :static
-  app.vendor_project 'vendor/AGKit', :xcode, :target => 'AGKit', :headers_dir => 'AGKit'
-
   app.frameworks += %w{Foundation CoreFoundation OpenGLES QuartzCore CoreVideo CoreAnimation CoreMedia AVFoundation AudioToolbox ImageIO CoreGraphics UIKit SenTestingKit}
 
   app.codesign_certificate = '258J346JMA'
-
+  app.provisioning_profile = './current.provisioning.mobileprovision'
 end

@@ -3,7 +3,7 @@ class AppDelegate
   def application(application, didFinishLaunchingWithOptions:launchOptions)
 
     @window = UIWindow.alloc.initWithFrame(UIScreen.mainScreen.bounds)
-    @window.rootViewController = VideoTestController.new
+    @window.rootViewController = MotionController.new
     @window.makeKeyAndVisible
 
     true
