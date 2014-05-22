@@ -20,6 +20,6 @@ class RingBuffer < Array
   # offset will be typically negative!
   #
   def []( offset = 0 )
-    return self.array_element( - 1 + offset )
+    self.array_element( - 1 + offset )
   end
 end

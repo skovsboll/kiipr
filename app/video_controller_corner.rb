@@ -21,7 +21,7 @@ class VideoControllerCorner < UIViewController
 
 
   def chain_filters
-    @video_camera >> @contrast >> @closing >> @edge >> @corner
+    @video_camera >> @threshold >> @closing >> @edge >> @corner
 
     @closing >> @blend >> @blend2 >> @output
 
@@ -57,6 +57,8 @@ class VideoControllerCorner < UIViewController
     @crosshairGenerator2 = GPUImageCrosshairGenerator.new
     @crosshairGenerator2.crosshairWidth = 30.0
     @crosshairGenerator2.forceProcessingAtSize([640.0, 480.0])
+
+    @threshold = GPUImageAdaptiveThresholdFilter.new
 
     @contrast = GPUImageContrastFilter.new
     @contrast.contrast = 5.0

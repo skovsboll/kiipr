@@ -21,9 +21,9 @@ class VideoControllerSimple < UIViewController
 
 
   def chain_filters
-    @video_camera >> @edge >> @output
-    #@video_camera >> @contrast >> @closing >> @blend
-    #@video_camera >> @blend >> @output
+    #@video_camera >> @edge >> @output
+    @video_camera >> @contrast >> @closing >> @blend
+    @video_camera >> @blend >> @output
   end
 
 
